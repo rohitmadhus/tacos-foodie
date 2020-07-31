@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/src/providers/auth.dart';
+import 'package:foodie/src/screens/home.dart';
 //import 'package:foodie/src/screens/home.dart';
 import 'package:foodie/src/screens/login.dart';
+import 'package:foodie/src/widgets/loading.dart';
+import 'package:provider/provider.dart';
 
 /*
 ** @author
@@ -8,7 +12,37 @@ import 'package:foodie/src/screens/login.dart';
 */
 
 void main() {
-  runApp(StartPage());
+  //To avoid white screen during opening
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: AuthProvider.initialize())
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Food App',
+          theme: ThemeData(
+            primarySwatch: Colors.red,
+          ),
+          home: ScreensController())));
+}
+
+class ScreensController extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
+    switch (auth.status) {
+      case Status.Uninitialized:
+        return Loading();
+      case Status.Unauthenticated:
+      case Status.Authenticating:
+        return LoginScreen();
+      case Status.Authenticated:
+        return Home();
+      default:
+        return LoginScreen();
+    }
+  }
 }
 
 class StartPage extends StatelessWidget {
