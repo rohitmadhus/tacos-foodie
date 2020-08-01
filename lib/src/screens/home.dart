@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/screen_navigation.dart';
+import 'package:foodie/src/providers/auth.dart';
 import 'package:foodie/src/screens/cart.dart';
 import 'package:foodie/src/widgets/bottom_navigation_icons.dart';
 import 'package:foodie/src/widgets/categories.dart';
 import 'package:foodie/src/widgets/featured_product.dart';
 import 'package:foodie/src/widgets/small_floating_button.dart';
 import 'package:foodie/src/widgets/title.dart';
+import 'package:provider/provider.dart';
 import '../style.dart';
 
 /*
@@ -21,94 +23,435 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        iconTheme: IconThemeData(color: red),
+        elevation: 0.7,
+        title: CustomText(text: "TACOS"),
+        actions: <Widget>[
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  changeScreen(context, ShoppoingCart());
+                },
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                      color: red, borderRadius: BorderRadius.circular(20)),
+                ),
+              )
+            ],
+          ),
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.notifications_none),
+                onPressed: () {},
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                      color: red, borderRadius: BorderRadius.circular(20)),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ),
+                accountName: CustomText(
+                  text: authProvider.userModel?.name,
+                  colors: white,
+                  weight: FontWeight.bold,
+                  size: 18,
+                ),
+                accountEmail: CustomText(
+                  text: authProvider.userModel?.email,
+                  colors: white,
+                )),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.home),
+              title: CustomText(text: "Home"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.fastfood),
+              title: CustomText(text: "Food I like"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.restaurant),
+              title: CustomText(text: "Liked restaurants"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.bookmark_border),
+              title: CustomText(text: "My orders"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.shopping_cart),
+              title: CustomText(text: "Cart"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.settings),
+              title: CustomText(text: "Settings"),
+            ),
+          ],
+        ),
+      ),
       backgroundColor: white,
       body: SafeArea(
           child: ListView(
         children: <Widget>[
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "What would you like to eat",
-                      style: TextStyle(fontSize: 20),
-                    )),
-                Stack(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.notifications_none),
-                      onPressed: () {},
-                    ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                            color: red,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                    )
-                  ],
-                )
-              ]),
-          SizedBox(
-            height: 5,
-          ),
           Container(
-            decoration: BoxDecoration(color: white, boxShadow: [
-              BoxShadow(color: grey, offset: Offset(1, 1), blurRadius: 4)
-            ]),
-            child: ListTile(
-              leading: Icon(Icons.search, color: red),
-              title: TextField(
-                decoration: InputDecoration(
-                    hintText: "Find food and Restaurant",
-                    border: InputBorder.none),
+            decoration: BoxDecoration(
+              color: Colors.greenAccent,
+              // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(30))
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(1, 1),
+                          blurRadius: 4)
+                    ]),
+                child: ListTile(
+                  leading: Icon(Icons.search, color: red),
+                  title: TextField(
+                    decoration: InputDecoration(
+                        hintText: "Find food and Restaurant",
+                        border: InputBorder.none),
+                  ),
+                  trailing: Icon(Icons.filter_list, color: red),
+                ),
               ),
-              trailing: Icon(Icons.filter_list, color: red),
             ),
           ),
           SizedBox(
             height: 5,
           ),
           Categories(),
+          Container(
+            height: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: 140,
+                        height: 160,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset("assets/Images/food.jpg")),
+                      ),
+                      Container(
+                        width: 140,
+                        height: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.05),
+                                Colors.black.withOpacity(0.025),
+                              ],
+                            )),
+                      ),
+                      Positioned.fill(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: CustomText(
+                                text: "Indian",
+                                colors: white,
+                                size: 26,
+                                weight: FontWeight.w300,
+                              )))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: 140,
+                        height: 160,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset("assets/Images/food.jpg")),
+                      ),
+                      Container(
+                        width: 140,
+                        height: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.05),
+                                Colors.black.withOpacity(0.025),
+                              ],
+                            )),
+                      ),
+                      Positioned.fill(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: CustomText(
+                                text: "Italian",
+                                colors: white,
+                                size: 26,
+                                weight: FontWeight.w300,
+                              )))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: 140,
+                        height: 160,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset("assets/Images/food.jpg")),
+                      ),
+                      Container(
+                        width: 140,
+                        height: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.05),
+                                Colors.black.withOpacity(0.025),
+                              ],
+                            )),
+                      ),
+                      Positioned.fill(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: CustomText(
+                                text: "Indian",
+                                colors: white,
+                                size: 26,
+                                weight: FontWeight.w300,
+                              )))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: 140,
+                        height: 160,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset("assets/Images/food.jpg")),
+                      ),
+                      Container(
+                        width: 140,
+                        height: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.05),
+                                Colors.black.withOpacity(0.025),
+                              ],
+                            )),
+                      ),
+                      Positioned.fill(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: CustomText(
+                                text: "Indian",
+                                colors: white,
+                                size: 26,
+                                weight: FontWeight.w300,
+                              )))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        width: 140,
+                        height: 160,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset("assets/Images/food.jpg")),
+                      ),
+                      Container(
+                        width: 140,
+                        height: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.05),
+                                Colors.black.withOpacity(0.025),
+                              ],
+                            )),
+                      ),
+                      Positioned.fill(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: CustomText(
+                                text: "Indian",
+                                colors: white,
+                                size: 26,
+                                weight: FontWeight.w300,
+                              )))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             height: 5,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CustomText(
-              text: "Featured Food",
-              size: 20,
-              colors: grey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: CustomText(
+                    text: "Featured",
+                    size: 20,
+                    colors: grey,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomText(
+                    text: "see all",
+                    size: 14,
+                    colors: red,
+                  ),
+                ),
+              ],
             ),
           ),
           Featured(),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CustomText(
-              text: "Popular product",
-              size: 20,
-              colors: grey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomText(
+                    text: "Popular restaurants",
+                    size: 20,
+                    colors: grey,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomText(
+                    text: "see all",
+                    size: 14,
+                    colors: red,
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(2.0),
             child: Stack(
               children: <Widget>[
-                Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(40)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset("assets/Images/food.jpg")),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/Images/food.jpg")),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -121,20 +464,24 @@ class _HomeState extends State<Home> {
                         child: Container(
                           width: 50,
                           decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(5)),
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                           child: Row(
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Icon(Icons.star,
-                                    color: Colors.yellow, size: 20),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.yellow[900],
+                                  size: 20,
+                                ),
                               ),
-                              Text("4.5")
+                              Text("4.5"),
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -142,24 +489,25 @@ class _HomeState extends State<Home> {
                     child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: 200,
+                    height: 100,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.only(bottomLeft: Radius.circular(20)),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
                         gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              Colors.black.withOpacity(0.8),
-                              Colors.black.withOpacity(0.7),
-                              Colors.black.withOpacity(0.6),
-                              Colors.black.withOpacity(0.5),
-                              Colors.black.withOpacity(0.4),
-                              Colors.black.withOpacity(0.2),
-                              Colors.black.withOpacity(0.1),
-                              Colors.black.withOpacity(0.05),
-                              Colors.black.withOpacity(0.1)
-                            ])),
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.6),
+                            Colors.black.withOpacity(0.4),
+                            Colors.black.withOpacity(0.1),
+                            Colors.black.withOpacity(0.05),
+                            Colors.black.withOpacity(0.025),
+                          ],
+                        )),
                   ),
                 )),
                 Positioned.fill(
@@ -171,48 +519,223 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
                         child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: "Pan Cakes \n",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: white)),
-                          TextSpan(
-                              text: "by",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                  color: white)),
-                          TextSpan(
-                              text: "Pan Cakes \n",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                  color: white)),
-                        ], style: TextStyle(color: black))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: RichText(
-                            text: TextSpan(
-                          children: [
+                          text: TextSpan(children: [
                             TextSpan(
-                                text: "\n 12 \n",
+                                text: "Santos Tacho \n",
                                 style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w300,
-                                    color: white)),
-                          ],
-                          style: TextStyle(color: black),
-                        )),
-                      )
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "avg meal price: ",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w300)),
+                            TextSpan(
+                                text: "\$5.99 \n",
+                                style: TextStyle(fontSize: 16)),
+                          ], style: TextStyle(color: white)),
+                        ),
+                      ),
                     ],
                   ),
                 ))
               ],
             ),
-          )
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/Images/food.jpg")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SmallButton(Icons.favorite),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.yellow[900],
+                                  size: 20,
+                                ),
+                              ),
+                              Text("4.5"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned.fill(
+                    child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.6),
+                            Colors.black.withOpacity(0.4),
+                            Colors.black.withOpacity(0.1),
+                            Colors.black.withOpacity(0.05),
+                            Colors.black.withOpacity(0.025),
+                          ],
+                        )),
+                  ),
+                )),
+                Positioned.fill(
+                    child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: "Santos Tacho \n",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "avg meal price: ",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w300)),
+                            TextSpan(
+                                text: "\$5.99 \n",
+                                style: TextStyle(fontSize: 16)),
+                          ], style: TextStyle(color: white)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ))
+              ],
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset("assets/Images/food.jpg")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SmallButton(Icons.favorite),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Icon(
+                                  Icons.star,
+                                  color: Colors.yellow[900],
+                                  size: 20,
+                                ),
+                              ),
+                              Text("4.5"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned.fill(
+                    child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.6),
+                            Colors.black.withOpacity(0.4),
+                            Colors.black.withOpacity(0.1),
+                            Colors.black.withOpacity(0.05),
+                            Colors.black.withOpacity(0.025),
+                          ],
+                        )),
+                  ),
+                )),
+                Positioned.fill(
+                    child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: "Santos Tacho \n",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "avg meal price: ",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w300)),
+                            TextSpan(
+                                text: "\$5.99 \n",
+                                style: TextStyle(fontSize: 16)),
+                          ], style: TextStyle(color: white)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ))
+              ],
+            ),
+          ),
         ],
       )),
       bottomNavigationBar: Container(

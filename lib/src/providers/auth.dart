@@ -73,7 +73,7 @@ class AuthProvider with ChangeNotifier {
     } else {
       _user = firebaseUser;
       _status = Status.Authenticated;
-      _userModel = await _userServices.getUserById(firebaseUser.uid);
+      _userModel = await _userServices.getUserById(user.uid);
     }
     notifyListeners();
   }
