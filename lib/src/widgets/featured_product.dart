@@ -5,40 +5,7 @@ import 'package:foodie/src/style.dart';
 import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/widgets/title.dart';
 
-List<Product> productsList = [
-  Product(
-      name: "cereals",
-      price: 5.99,
-      rating: 4.2,
-      wishList: true,
-      image: "1.jpg",
-      vendor: "good - foods",
-      details: "jkdhvljkdsnvlkdnvlkdnvlkdfnvlkdfnvlkdfnvlkd"),
-  Product(
-      name: "noodles",
-      price: 5.99,
-      rating: 4.2,
-      wishList: false,
-      image: "1.jpg",
-      vendor: "good - foods",
-      details: "jkdhvljkdsnvlkdnvlkdnvlkdfnvlkdfnvlkdfnvlkd"),
-  Product(
-      name: "cereals",
-      price: 5.99,
-      rating: 4.2,
-      wishList: true,
-      image: "1.jpg",
-      vendor: "good - foods",
-      details: "jkdhvljkdsnvlkdnvlkdnvlkdfnvlkdfnvlkdfnvlkd"),
-  Product(
-      name: "cereals",
-      price: 5.99,
-      rating: 4.2,
-      wishList: true,
-      image: "1.jpg",
-      vendor: "good - foods",
-      details: "jkdhvljkdsnvlkdnvlkdnvlkdfnvlkdfnvlkdfnvlkd")
-];
+List<ProductModel> productsList = [];
 
 class Featured extends StatelessWidget {
   @override
@@ -91,17 +58,17 @@ class Featured extends StatelessWidget {
                                     ]),
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
-                                  child: productsList[index].wishList
-                                      ? Icon(
-                                          Icons.favorite,
-                                          color: red,
-                                          size: 18,
-                                        )
-                                      : Icon(
-                                          Icons.favorite_border,
-                                          color: red,
-                                          size: 18,
-                                        ),
+                                  // child: productsList[index].wishList
+                                  //     ? Icon(
+                                  //         Icons.favorite,
+                                  //         color: red,
+                                  //         size: 18,
+                                  //       )
+                                  //     : Icon(
+                                  //         Icons.favorite_border,
+                                  //         color: red,
+                                  //         size: 18,
+                                  //       ),
                                 ),
                               ),
                             ),

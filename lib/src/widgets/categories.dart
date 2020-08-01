@@ -3,12 +3,7 @@ import 'package:foodie/src/style.dart';
 import 'package:foodie/src/widgets/title.dart';
 import 'package:foodie/src/models/category.dart';
 
-List<Category> categoriesList = [
-  Category(name: "salad", image: "salad.png"),
-  Category(name: "salad", image: "ice-cream.png"),
-  Category(name: "salad", image: "salad.png"),
-  Category(name: "salad", image: "salad.png"),
-];
+List<CategoryModel> categoriesList = [];
 
 class Categories extends StatelessWidget {
   @override

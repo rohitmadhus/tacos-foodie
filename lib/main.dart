@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodie/src/providers/auth.dart';
+import 'package:foodie/src/providers/category.dart';
+import 'package:foodie/src/providers/userAuth.dart';
 import 'package:foodie/src/screens/home.dart';
 //import 'package:foodie/src/screens/home.dart';
 import 'package:foodie/src/screens/login.dart';
@@ -16,7 +17,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: AuthProvider.initialize())
+        ChangeNotifierProvider.value(value: UserProvider.initialize()),
+        ChangeNotifierProvider.value(value: CategoryProvider.initialize()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -30,7 +32,7 @@ void main() {
 class ScreensController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
+    final auth = Provider.of<UserProvider>(context);
     switch (auth.status) {
       case Status.Uninitialized:
         return Loading();

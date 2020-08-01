@@ -5,7 +5,7 @@ import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/widgets/title.dart';
 
 class Details extends StatefulWidget {
-  final Product product;
+  final ProductModel product;
   Details({@required this.product});
   @override
   _DetailsState createState() => _DetailsState();

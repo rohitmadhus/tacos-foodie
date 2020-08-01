@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/screen_navigation.dart';
-import 'package:foodie/src/providers/auth.dart';
+import 'package:foodie/src/providers/userAuth.dart';
 import 'package:foodie/src/screens/home.dart';
 import 'package:foodie/src/screens/registration.dart';
 import 'package:foodie/src/style.dart';
@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _key = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<UserProvider>(context);
     return authProvider.status == Status.Authenticating
         ? Loading()
         : Scaffold(

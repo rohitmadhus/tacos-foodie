@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/style.dart';
 import 'package:foodie/src/widgets/title.dart';
 
@@ -9,14 +8,6 @@ class ShoppoingCart extends StatefulWidget {
 }
 
 class _ShoppoingCartState extends State<ShoppoingCart> {
-  Product product = Product(
-      name: "cereals",
-      price: 5.99,
-      rating: 4.2,
-      wishList: true,
-      image: "1.jpg",
-      vendor: "good - foods",
-      details: "jkdhvljkdsnvlkdnvlkdnvlkdfnvlkdfnvlkdfnvlkd");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,33 +66,33 @@ class _ShoppoingCartState extends State<ShoppoingCart> {
                 BoxShadow(
                     color: Colors.red[50], offset: Offset(3, 2), blurRadius: 5)
               ]),
-              child: Row(
-                children: <Widget>[
-                  Image.asset("assets/Images/${product.image}",
-                      height: 120, width: 120),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: product.name + "\n",
-                            style: TextStyle(color: black, fontSize: 20)),
-                        TextSpan(
-                            text: "₹ " + product.price.toString() + "\n",
-                            style: TextStyle(
-                                color: black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold))
-                      ])),
-                      SizedBox(width: 100),
-                      IconButton(
-                          icon: Icon(Icons.delete, color: black),
-                          onPressed: null)
-                    ],
-                  )
-                ],
-              ),
+              // child: Row(
+              //   children: <Widget>[
+              //     Image.asset("assets/Images/${product.image}",
+              //         height: 120, width: 120),
+              //     Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: <Widget>[
+              //         RichText(
+              //             text: TextSpan(children: [
+              //           TextSpan(
+              //               text: product.name + "\n",
+              //               style: TextStyle(color: black, fontSize: 20)),
+              //           TextSpan(
+              //               text: "₹ " + product.price.toString() + "\n",
+              //               style: TextStyle(
+              //                   color: black,
+              //                   fontSize: 17,
+              //                   fontWeight: FontWeight.bold))
+              //         ])),
+              //         SizedBox(width: 100),
+              //         IconButton(
+              //             icon: Icon(Icons.delete, color: black),
+              //             onPressed: null)
+              //       ],
+              //     )
+              //   ],
+              // ),
             ),
           )
         ],

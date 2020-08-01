@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/screen_navigation.dart';
-import 'package:foodie/src/providers/auth.dart';
+import 'package:foodie/src/providers/userAuth.dart';
+import 'package:foodie/src/providers/category.dart';
 import 'package:foodie/src/screens/cart.dart';
 import 'package:foodie/src/widgets/bottom_navigation_icons.dart';
 import 'package:foodie/src/widgets/categories.dart';
@@ -23,7 +24,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final user = Provider.of<UserProvider>(context);
+    final categoryProvider = Provider.of<CategoryProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
@@ -79,13 +81,13 @@ class _HomeState extends State<Home> {
                   color: Colors.green,
                 ),
                 accountName: CustomText(
-                  text: authProvider.userModel?.name,
+                  text: user.userModel?.name,
                   colors: white,
                   weight: FontWeight.bold,
                   size: 18,
                 ),
                 accountEmail: CustomText(
-                  text: authProvider.userModel?.email,
+                  text: user.userModel?.email,
                   colors: white,
                 )),
             ListTile(
@@ -159,238 +161,61 @@ class _HomeState extends State<Home> {
           ),
           Categories(),
           Container(
-            height: 100,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 140,
-                        height: 160,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset("assets/Images/food.jpg")),
+              height: 100,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categoryProvider.categories.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            width: 140,
+                            height: 160,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Image.network(
+                                  categoryProvider.categories[index].image,
+                                  fit: BoxFit.cover,
+                                )),
+                          ),
+                          Container(
+                            width: 140,
+                            height: 160,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  bottomRight: Radius.circular(30),
+                                ),
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.black.withOpacity(0.6),
+                                    Colors.black.withOpacity(0.6),
+                                    Colors.black.withOpacity(0.6),
+                                    Colors.black.withOpacity(0.4),
+                                    Colors.black.withOpacity(0.1),
+                                    Colors.black.withOpacity(0.05),
+                                    Colors.black.withOpacity(0.025),
+                                  ],
+                                )),
+                          ),
+                          Positioned.fill(
+                              child: Align(
+                                  alignment: Alignment.center,
+                                  child: CustomText(
+                                    text:
+                                        categoryProvider.categories[index].name,
+                                    colors: white,
+                                    size: 26,
+                                    weight: FontWeight.w300,
+                                  )))
+                        ],
                       ),
-                      Container(
-                        width: 140,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.4),
-                                Colors.black.withOpacity(0.1),
-                                Colors.black.withOpacity(0.05),
-                                Colors.black.withOpacity(0.025),
-                              ],
-                            )),
-                      ),
-                      Positioned.fill(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: CustomText(
-                                text: "Indian",
-                                colors: white,
-                                size: 26,
-                                weight: FontWeight.w300,
-                              )))
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 140,
-                        height: 160,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset("assets/Images/food.jpg")),
-                      ),
-                      Container(
-                        width: 140,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.4),
-                                Colors.black.withOpacity(0.1),
-                                Colors.black.withOpacity(0.05),
-                                Colors.black.withOpacity(0.025),
-                              ],
-                            )),
-                      ),
-                      Positioned.fill(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: CustomText(
-                                text: "Italian",
-                                colors: white,
-                                size: 26,
-                                weight: FontWeight.w300,
-                              )))
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 140,
-                        height: 160,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset("assets/Images/food.jpg")),
-                      ),
-                      Container(
-                        width: 140,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.4),
-                                Colors.black.withOpacity(0.1),
-                                Colors.black.withOpacity(0.05),
-                                Colors.black.withOpacity(0.025),
-                              ],
-                            )),
-                      ),
-                      Positioned.fill(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: CustomText(
-                                text: "Indian",
-                                colors: white,
-                                size: 26,
-                                weight: FontWeight.w300,
-                              )))
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 140,
-                        height: 160,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset("assets/Images/food.jpg")),
-                      ),
-                      Container(
-                        width: 140,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.4),
-                                Colors.black.withOpacity(0.1),
-                                Colors.black.withOpacity(0.05),
-                                Colors.black.withOpacity(0.025),
-                              ],
-                            )),
-                      ),
-                      Positioned.fill(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: CustomText(
-                                text: "Indian",
-                                colors: white,
-                                size: 26,
-                                weight: FontWeight.w300,
-                              )))
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        width: 140,
-                        height: 160,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset("assets/Images/food.jpg")),
-                      ),
-                      Container(
-                        width: 140,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                            ),
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.4),
-                                Colors.black.withOpacity(0.1),
-                                Colors.black.withOpacity(0.05),
-                                Colors.black.withOpacity(0.025),
-                              ],
-                            )),
-                      ),
-                      Positioned.fill(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: CustomText(
-                                text: "Indian",
-                                colors: white,
-                                size: 26,
-                                weight: FontWeight.w300,
-                              )))
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    );
+                  })),
           SizedBox(
             height: 5,
           ),

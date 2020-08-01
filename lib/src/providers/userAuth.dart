@@ -5,7 +5,7 @@ import 'package:foodie/src/models/user.dart';
 
 enum Status { Uninitialized, Unauthenticated, Authenticating, Authenticated }
 
-class AuthProvider with ChangeNotifier {
+class UserProvider with ChangeNotifier {
   FirebaseAuth _auth;
   FirebaseUser _user;
   Status _status = Status.Uninitialized;
@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
   TextEditingController name = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  AuthProvider.initialize() : _auth = FirebaseAuth.instance {
+  UserProvider.initialize() : _auth = FirebaseAuth.instance {
     _auth.onAuthStateChanged.listen(_onStateChanged);
   }
 
@@ -50,7 +50,9 @@ class AuthProvider with ChangeNotifier {
         Map<String, dynamic> values = {
           "name": name.text,
           "email": email.text,
-          "id": user.user.uid
+          "id": user.user.uid,
+          "likedFood": [],
+          "likedRestaurants": []
         };
         _userServices.createUser(values);
       });
