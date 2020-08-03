@@ -5,7 +5,7 @@ import 'package:foodie/src/models/category.dart';
 
 List<CategoryModel> categoriesList = [];
 
-class Categories extends StatelessWidget {
+class FoodTypes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

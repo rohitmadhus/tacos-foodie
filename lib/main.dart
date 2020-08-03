@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/providers/category.dart';
+import 'package:foodie/src/providers/product.dart';
+import 'package:foodie/src/providers/restaurant.dart';
 import 'package:foodie/src/providers/userAuth.dart';
 import 'package:foodie/src/screens/home.dart';
 //import 'package:foodie/src/screens/home.dart';
@@ -19,6 +22,8 @@ void main() {
       providers: [
         ChangeNotifierProvider.value(value: UserProvider.initialize()),
         ChangeNotifierProvider.value(value: CategoryProvider.initialize()),
+        ChangeNotifierProvider.value(value: RestaurantProvider.initialize()),
+        ChangeNotifierProvider.value(value: ProductProvider.initialize()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

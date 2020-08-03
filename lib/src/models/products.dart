@@ -17,23 +17,21 @@ class ProductModel {
 
   String _id;
   String _name;
-  String _restaurantId;
-  String _restaurant;
   String _category;
   String _image;
   String _description;
-
   double _rating;
-
+  bool _featured;
   int _price;
   int _rates;
 
-  bool _featured;
+  int _restaurantId;
+  String _restaurant;
 
   String get id => _id;
   String get name => _name;
   String get restaurant => _restaurant;
-  String get restaurantId => _restaurantId;
+  int get restaurantId => _restaurantId;
   String get category => _category;
   String get description => _description;
   String get image => _image;
@@ -49,11 +47,12 @@ class ProductModel {
     _id = snapshot.data[ID];
     _image = snapshot.data[IMAGE];
     _restaurant = snapshot.data[RESTAURANT];
-    _restaurantId = snapshot.data[RESTAURANT_ID].toString();
+    _restaurantId = snapshot.data[RESTAURANT_ID];
     _description = snapshot.data[DESCRIPTION];
     _id = snapshot.data[ID];
     _featured = snapshot.data[FEATURED];
-    _price = snapshot.data[PRICE].floor();
+    _price = snapshot.data[PRICE];
+    // _price = snapshot.data[PRICE].floor();
     _category = snapshot.data[CATEGORY];
     _rating = snapshot.data[RATING];
     _rates = snapshot.data[RATES];

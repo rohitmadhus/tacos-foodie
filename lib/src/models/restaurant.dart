@@ -10,7 +10,7 @@ class RestaurantModel {
   static const IMAGE = "image";
   static const POPULAR = "popular";
 
-  String _id;
+  int _id;
   String _name;
   double _avgPrice;
   double _rating;
@@ -18,7 +18,7 @@ class RestaurantModel {
   bool _popular;
   int _rates;
 
-  String get id => _id;
+  int get id => _id;
   String get name => _name;
   double get avgPrice => _avgPrice;
   double get rating => _rating;
@@ -26,7 +26,7 @@ class RestaurantModel {
   String get image => _image;
   bool get popular => _popular;
 
-  RestaurantModel.fromSnapoShot(DocumentSnapshot snapshot) {
+  RestaurantModel.fromSnapshot(DocumentSnapshot snapshot) {
     _id = snapshot.data[ID];
     _name = snapshot.data[NAME];
     _avgPrice = snapshot.data[AVG_PRICE];
