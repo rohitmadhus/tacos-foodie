@@ -5,6 +5,7 @@ import 'package:foodie/src/providers/restaurant.dart';
 import 'package:foodie/src/providers/userAuth.dart';
 import 'package:foodie/src/providers/category.dart';
 import 'package:foodie/src/screens/cart.dart';
+import 'package:foodie/src/screens/category.dart';
 import 'package:foodie/src/widgets/bottom_navigation_icons.dart';
 import 'package:foodie/src/widgets/category.dart';
 import 'package:foodie/src/widgets/food_types.dart';
@@ -173,8 +174,20 @@ class _HomeState extends State<Home> {
                   scrollDirection: Axis.horizontal,
                   itemCount: categoryProvider.categories.length,
                   itemBuilder: (context, index) {
-                    return CategoryWidget(
-                        categoryModel: categoryProvider.categories[index]);
+                    return GestureDetector(
+                      onTap: () async {
+                        await productProvider.loadProductsByCategory(
+                            categoryName:
+                                categoryProvider.categories[index].name);
+                        changeScreen(
+                            context,
+                            CategoryScreen(
+                                categoryModel:
+                                    categoryProvider.categories[index]));
+                      },
+                      child: CategoryWidget(
+                          categoryModel: categoryProvider.categories[index]),
+                    );
                   })),
           SizedBox(
             height: 5,
@@ -231,7 +244,10 @@ class _HomeState extends State<Home> {
           Column(
             children: restaurantProvider.restaurants
                 .map((item) => GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        await productProvider.loadProductsByRestaurant(
+                            id: item.id);
+                      },
                       child: RestaurantWidget(
                         restaurant: item,
                       ),
