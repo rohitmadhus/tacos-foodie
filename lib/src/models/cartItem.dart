@@ -29,6 +29,7 @@ class CartItemModel {
   //int get totalRestaurantSale => _totalRestaurantSale;
   int get quantity => _quantity;
 
+//getting data from map
   CartItemModel.fromMap(Map data) {
     _id = data[ID];
     _name = data[NAME];
@@ -40,6 +41,7 @@ class CartItemModel {
     //_restaurantId = data[RESTAURANT_ID];
   }
 
+// defining map object
   Map toMap() => {
         ID: _id,
         IMAGE: _image,

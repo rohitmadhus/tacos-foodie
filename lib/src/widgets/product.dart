@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/src/helpers/screen_navigation.dart';
+import 'package:foodie/src/models/products.dart';
+import 'package:foodie/src/providers/product.dart';
+import 'package:foodie/src/providers/restaurant.dart';
+import 'package:foodie/src/screens/restaurant.dart';
 import 'package:foodie/src/style.dart';
 import 'package:foodie/src/widgets/title.dart';
+import 'package:provider/provider.dart';
 
 class ProductWidget extends StatelessWidget {
+  final ProductModel product;
+
+  const ProductWidget({Key key, this.product}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final restaurantProvider = Provider.of<RestaurantProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 10),
       child: Container(
@@ -29,9 +40,9 @@ class ProductWidget extends StatelessWidget {
                   bottomLeft: Radius.circular(20),
                   topLeft: Radius.circular(20),
                 ),
-                child: Image.asset(
-                  "images/food.jpg",
-                  fit: BoxFit.fill,
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -44,7 +55,7 @@ class ProductWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomText(
-                          text: "Pancakes",
+                          text: product.name,
                         ),
                       ),
                       Padding(
@@ -79,7 +90,7 @@ class ProductWidget extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         CustomText(
-                          text: "from: ",
+                          text: "from :",
                           colors: grey,
                           weight: FontWeight.w300,
                           size: 14,
@@ -87,11 +98,23 @@ class ProductWidget extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        CustomText(
-                          text: "Santos Tacho: ",
-                          colors: black,
-                          weight: FontWeight.w300,
-                          size: 14,
+                        GestureDetector(
+                          onTap: () async {
+                            await productProvider.loadProductsByRestaurant(
+                                id: product.restaurantId);
+                            await restaurantProvider.loadSingleRestaurant(
+                                restaurantId: product.restaurantId);
+                            changeScreen(
+                                context,
+                                RestaurantScreen(
+                                    restaurantModel:
+                                        restaurantProvider.restaurant));
+                          },
+                          child: CustomText(
+                              text: product.restaurant,
+                              colors: black,
+                              weight: FontWeight.w600,
+                              size: 14),
                         ),
                       ],
                     ),
@@ -104,7 +127,7 @@ class ProductWidget extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: CustomText(
-                              text: "4.3",
+                              text: product.rating.toString(),
                               colors: grey,
                               size: 14.0,
                             ),
@@ -137,7 +160,7 @@ class ProductWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: CustomText(
-                          text: "\$3.55",
+                          text: "₹" + product.price.toString(),
                           weight: FontWeight.bold,
                         ),
                       ),

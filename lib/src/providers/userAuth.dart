@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/user.dart';
+import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/models/user.dart';
+import 'package:uuid/uuid.dart';
 
 enum Status { Uninitialized, Unauthenticated, Authenticating, Authenticated }
 
@@ -91,5 +95,57 @@ class UserProvider with ChangeNotifier {
     email.text = "";
     password.text = "";
     name.text = "";
+  }
+
+  Future<bool> addToCart({ProductModel product, int quantity}) async {
+    try {
+      var uuid = Uuid();
+      String cartItemId = uuid.v1();
+      List cart = _userModel.cart;
+      bool itemExist = false;
+      bool diffRestaurant = false;
+      Map cartItem = {
+        "id": cartItemId,
+        "name": product.name,
+        "image": product.image,
+        "productId": product.id,
+        "price": product.price,
+        "quantity": quantity,
+        "restaurantId": product.restaurantId
+      };
+      // for (Map item in cart) {
+      //   if (item["restaurantId"] != cartItem["restaurantId"]) {
+      //     diffRestaurant = true;
+      //   }
+      // }
+      //   if (item["productId"] == cartItem["productId"]) {
+      //     item["quantity"] = item["quantity"] + quantity;
+      //     itemExist = true;
+      //     break;
+      //   }
+      // }
+      // if (!itemExist) {
+      //   _userModel.cart.add(cartItem);
+      // }
+      _userModel.cart.add(cartItem);
+      _userServices.addToCart(cartItem: cartItem, uId: _userModel.id);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> removeFromCart({Map cartItem}) async {
+    try {
+      _userServices.removeFromCart(cartItem: cartItem, uId: _userModel.id);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<Void> reloadUserModel() async {
+    _userModel = await _userServices.getUserById(user.uid);
+    notifyListeners();
   }
 }

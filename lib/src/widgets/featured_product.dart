@@ -63,6 +63,7 @@ class Featured extends StatelessWidget {
                                   image: productProvider.products[index].image,
                                   height: 130,
                                   width: 200,
+                                  fit: BoxFit.cover,
                                 ),
                               )
                             ],
@@ -145,7 +146,7 @@ class Featured extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 8.0),
                               child: CustomText(
                                 text:
-                                    "\$${productProvider.products[index].price / 100}",
+                                    "₹ ${productProvider.products[index].price}",
                                 weight: FontWeight.bold,
                               ),
                             ),

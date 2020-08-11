@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/src/providers/app.dart';
 import 'package:foodie/src/providers/category.dart';
 import 'package:foodie/src/providers/product.dart';
 import 'package:foodie/src/providers/restaurant.dart';
@@ -19,6 +20,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: AppProvider()),
         ChangeNotifierProvider.value(value: UserProvider.initialize()),
         ChangeNotifierProvider.value(value: CategoryProvider.initialize()),
         ChangeNotifierProvider.value(value: RestaurantProvider.initialize()),

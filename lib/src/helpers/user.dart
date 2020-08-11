@@ -20,6 +20,18 @@ class UserServices {
 
   Future<UserModel> getUserById(String id) =>
       _firestore.collection(userCollection).document(id).get().then((doc) {
-        return UserModel.fromSnapoShot(doc);
+        return UserModel.fromSnapShot(doc);
       });
+
+  void addToCart({String uId, Map cartItem}) {
+    _firestore.collection(userCollection).document(uId).updateData({
+      "cart": FieldValue.arrayUnion([cartItem])
+    });
+  }
+
+  void removeFromCart({String uId, Map cartItem}) {
+    _firestore.collection(userCollection).document(uId).updateData({
+      "cart": FieldValue.arrayRemove([cartItem])
+    });
+  }
 }
