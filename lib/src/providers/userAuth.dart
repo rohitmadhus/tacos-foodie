@@ -1,8 +1,8 @@
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/user.dart';
+import 'package:foodie/src/helpers/order.dart';
+import 'package:foodie/src/models/order.dart';
 import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/models/user.dart';
 import 'package:uuid/uuid.dart';
@@ -14,6 +14,7 @@ class UserProvider with ChangeNotifier {
   FirebaseUser _user;
   Status _status = Status.Uninitialized;
   UserServices _userServices = UserServices();
+  OrderServices _orderServices = OrderServices();
   UserModel _userModel;
 
   //getters
@@ -21,6 +22,9 @@ class UserProvider with ChangeNotifier {
   Status get status => _status;
   FirebaseUser get user => _user;
   UserModel get userModel => _userModel;
+
+  //Public variable
+  List<OrderModel> orders = [];
 
   final formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
@@ -101,9 +105,9 @@ class UserProvider with ChangeNotifier {
     try {
       var uuid = Uuid();
       String cartItemId = uuid.v1();
-      List cart = _userModel.cart;
-      bool itemExist = false;
-      bool diffRestaurant = false;
+      //List cart = _userModel.cart;
+      // bool itemExist = false;
+      // bool diffRestaurant = false;
       Map cartItem = {
         "id": cartItemId,
         "name": product.name,
@@ -144,7 +148,12 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<Void> reloadUserModel() async {
+  getOrders() async {
+    orders = await _orderServices.getUserOrders(userId: _user.uid);
+    notifyListeners();
+  }
+
+  reloadUserModel() async {
     _userModel = await _userServices.getUserById(user.uid);
     notifyListeners();
   }

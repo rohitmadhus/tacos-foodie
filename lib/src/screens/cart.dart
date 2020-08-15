@@ -5,6 +5,8 @@ import 'package:foodie/src/style.dart';
 import 'package:foodie/src/widgets/loading.dart';
 import 'package:foodie/src/widgets/title.dart';
 import 'package:provider/provider.dart';
+import 'package:foodie/src/helpers/order.dart';
+import 'package:uuid/uuid.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final _key = GlobalKey<ScaffoldState>();
+  OrderServices _orderServices = OrderServices();
   @override
   Widget build(BuildContext context) {
     final app = Provider.of<AppProvider>(context);
@@ -35,47 +38,6 @@ class _CartScreenState extends State<CartScreen> {
         title: CustomText(
           text: "Cart",
         ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Stack(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Image.asset(
-                    "assets/Images/food.jpg",
-                    width: 20,
-                    height: 20,
-                  ),
-                ),
-                Positioned(
-                  right: 7,
-                  bottom: 5,
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey[400],
-                              offset: Offset(2, 1),
-                              blurRadius: 3,
-                            )
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                        child: CustomText(
-                          text: "2",
-                          colors: red,
-                          size: 16,
-                          weight: FontWeight.bold,
-                        ),
-                      )),
-                )
-              ],
-            ),
-          ),
-        ],
       ),
       backgroundColor: white,
       body: app.isLoading
@@ -83,6 +45,7 @@ class _CartScreenState extends State<CartScreen> {
           : ListView.builder(
               itemCount: user.userModel.cart.length,
               itemBuilder: (context, index) {
+                // ignore: non_constant_identifier_names
                 List ShoppingCart = user.userModel.cart;
 
                 return Padding(
@@ -206,9 +169,150 @@ class _CartScreenState extends State<CartScreen> {
                 decoration: BoxDecoration(
                     color: red, borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (user.userModel.totalCartPrice == 0) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0)), //this right here
+                                child: Container(
+                                  height: 200,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'No item in the cart for checking out',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          width: 320.0,
+                                          child: RaisedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Close",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            color: Colors.red,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                        return;
+                      }
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0)), //this right here
+                              child: Container(
+                                height: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Confirm to checkout\nTotal price : ₹ ${user.userModel.totalCartPrice} \n upon delivery',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 320.0,
+                                        child: RaisedButton(
+                                          onPressed: () async {
+                                            // app.changeLoading();
+                                            var uuid = Uuid();
+                                            String id = uuid.v4();
+                                            _orderServices.createOrder(
+                                                userId: user.user.uid,
+                                                id: id,
+                                                description:
+                                                    "some thing from user",
+                                                status: "complete",
+                                                cart: user.userModel.cart,
+                                                totalPrice: user
+                                                    .userModel.totalCartPrice);
+                                            for (Map cartItem
+                                                in user.userModel.cart) {
+                                              bool value =
+                                                  await user.removeFromCart(
+                                                      cartItem: cartItem);
+                                              if (value) {
+                                                user.reloadUserModel();
+                                              } else {
+                                                print("Item not removed");
+                                              }
+                                            }
+                                            _key.currentState.showSnackBar(
+                                                SnackBar(
+                                                    backgroundColor: grey,
+                                                    content:
+                                                        Text("Order Placed")));
+                                            //app.changeLoading();
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Confirm",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          color: const Color(0xFF1BC0C5),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 320.0,
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          color: Colors.red,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    },
                     child: CustomText(
-                        text: "Buy Now",
+                        text: "Check out",
                         colors: white,
                         weight: FontWeight.w800)),
               )

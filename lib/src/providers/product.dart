@@ -29,7 +29,7 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future loadProductsByRestaurant({int id}) async {
+  Future loadProductsByRestaurant({String id}) async {
     productsByRestaurant =
         await _productServices.getProductsFromRestaurant(id: id);
     notifyListeners();

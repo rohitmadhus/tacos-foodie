@@ -40,11 +40,10 @@ class ProductServices {
         return productsInCategory;
       });
 
-  Future<List<ProductModel>> getProductsFromRestaurant({int id}) async =>
+  Future<List<ProductModel>> getProductsFromRestaurant({String id}) async =>
       _firestore
           .collection(collection)
           .where("restaurantId", isEqualTo: id)
-          .where("popular", isEqualTo: true)
           .getDocuments()
           .then((result) {
         List<ProductModel> productsInRestaurant = [];

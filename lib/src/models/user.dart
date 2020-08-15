@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodie/src/models/cartItem.dart';
 
 class UserModel {
   static const NAME = "name";

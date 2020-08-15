@@ -25,13 +25,13 @@ class ProductModel {
   int _price;
   int _rates;
 
-  int _restaurantId;
+  String _restaurantId;
   String _restaurant;
 
   String get id => _id;
   String get name => _name;
   String get restaurant => _restaurant;
-  int get restaurantId => _restaurantId;
+  String get restaurantId => _restaurantId;
   String get category => _category;
   String get description => _description;
   String get image => _image;

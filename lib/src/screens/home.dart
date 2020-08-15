@@ -7,6 +7,7 @@ import 'package:foodie/src/providers/userAuth.dart';
 import 'package:foodie/src/providers/category.dart';
 import 'package:foodie/src/screens/cart.dart';
 import 'package:foodie/src/screens/category.dart';
+import 'package:foodie/src/screens/order.dart';
 import 'package:foodie/src/screens/productSearch.dart';
 import 'package:foodie/src/screens/restaurant.dart';
 import 'package:foodie/src/screens/restaurantSearch.dart';
@@ -131,7 +132,9 @@ class _HomeState extends State<Home> {
                     title: CustomText(text: "Liked restaurants"),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      changeScreen(context, OrderScreen());
+                    },
                     leading: Icon(Icons.bookmark_border),
                     title: CustomText(text: "My orders"),
                   ),
@@ -330,7 +333,13 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     BottomNavIcon(name: "home", image: "home.png"),
-                    BottomNavIcon(name: "Near by", image: "target.png"),
+                    BottomNavIcon(
+                        name: "Orders",
+                        image: "target.png",
+                        onClick: () async {
+                          await user.getOrders();
+                          changeScreen(context, OrderScreen());
+                        }),
                     BottomNavIcon(
                       name: "Cart",
                       image: "shopping-bag.png",

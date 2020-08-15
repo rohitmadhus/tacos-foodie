@@ -8,15 +8,20 @@ class RestaurantProvider with ChangeNotifier {
   List<RestaurantModel> restaurantsSearched = [];
   RestaurantModel restaurant;
   RestaurantProvider.initialize() {
-    _loadRestaurants();
+    //_loadRestaurants();
+    _loadPopularRestaurants();
   }
 
-  _loadRestaurants() async {
-    restaurants = await restaurantServices.getRestaurants();
+  // _loadRestaurants() async {
+  //   restaurants = await restaurantServices.getRestaurants();
+  //   notifyListeners();
+  // }
+  _loadPopularRestaurants() async {
+    restaurants = await restaurantServices.getPopularRestaurants();
     notifyListeners();
   }
 
-  loadSingleRestaurant({int restaurantId}) async {
+  loadSingleRestaurant({String restaurantId}) async {
     restaurant = await restaurantServices.getRestaurantById(id: restaurantId);
     notifyListeners();
   }
