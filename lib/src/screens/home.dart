@@ -41,119 +41,110 @@ class _HomeState extends State<Home> {
     final restaurantProvider = Provider.of<RestaurantProvider>(context);
     final productProvider = Provider.of<ProductProvider>(context);
 
-    return app.isLoading
-        ? Scaffold(
-            backgroundColor: white,
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Loading()],
-            ),
-          )
-        : Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.greenAccent,
-              iconTheme: IconThemeData(color: red),
-              elevation: 0.7,
-              title: CustomText(text: "TACOS"),
-              actions: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.shopping_cart),
-                      onPressed: () {
-                        changeScreen(context, CartScreen());
-                      },
-                    ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                            color: red,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                    )
-                  ],
-                ),
-                Stack(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.notifications_none),
-                      onPressed: () {},
-                    ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                            color: red,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-            drawer: Drawer(
-              child: ListView(
-                children: <Widget>[
-                  UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                      ),
-                      accountName: CustomText(
-                        text:
-                            user.userModel?.name ?? "User name is Loading....",
-                        colors: white,
-                        weight: FontWeight.bold,
-                        size: 18,
-                      ),
-                      accountEmail: CustomText(
-                        text: user.userModel?.email ?? "Email is Loading....",
-                        colors: white,
-                      )),
-                  ListTile(
-                    onTap: () {},
-                    leading: Icon(Icons.home),
-                    title: CustomText(text: "Home"),
-                  ),
-                  ListTile(
-                    onTap: () {},
-                    leading: Icon(Icons.fastfood),
-                    title: CustomText(text: "Food I like"),
-                  ),
-                  ListTile(
-                    onTap: () {},
-                    leading: Icon(Icons.restaurant),
-                    title: CustomText(text: "Liked restaurants"),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      changeScreen(context, OrderScreen());
-                    },
-                    leading: Icon(Icons.bookmark_border),
-                    title: CustomText(text: "My orders"),
-                  ),
-                  ListTile(
-                    onTap: () {},
-                    leading: Icon(Icons.shopping_cart),
-                    title: CustomText(text: "Cart"),
-                  ),
-                  ListTile(
-                    onTap: () {},
-                    leading: Icon(Icons.settings),
-                    title: CustomText(text: "Settings"),
-                  ),
-                ],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        iconTheme: IconThemeData(color: red),
+        elevation: 0.7,
+        title: CustomText(text: "TACOS"),
+        actions: <Widget>[
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  changeScreen(context, CartScreen());
+                },
               ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                      color: red, borderRadius: BorderRadius.circular(20)),
+                ),
+              )
+            ],
+          ),
+          Stack(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.notifications_none),
+                onPressed: () {},
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                      color: red, borderRadius: BorderRadius.circular(20)),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ),
+                accountName: CustomText(
+                  text: user.userModel?.name ?? "User name is Loading....",
+                  colors: white,
+                  weight: FontWeight.bold,
+                  size: 18,
+                ),
+                accountEmail: CustomText(
+                  text: user.userModel?.email ?? "Email is Loading....",
+                  colors: white,
+                )),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.home),
+              title: CustomText(text: "Home"),
             ),
-            backgroundColor: white,
-            body: SafeArea(
-                child: ListView(
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.fastfood),
+              title: CustomText(text: "Food I like"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.restaurant),
+              title: CustomText(text: "Liked restaurants"),
+            ),
+            ListTile(
+              onTap: () {
+                changeScreen(context, OrderScreen());
+              },
+              leading: Icon(Icons.bookmark_border),
+              title: CustomText(text: "My orders"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.shopping_cart),
+              title: CustomText(text: "Cart"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.settings),
+              title: CustomText(text: "Settings"),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: white,
+      body: app.isLoading
+          ? Loading()
+          : SafeArea(
+              child: ListView(
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
@@ -326,30 +317,30 @@ class _HomeState extends State<Home> {
                 )
               ],
             )),
-            bottomNavigationBar: Container(
-              height: 60,
-              color: white,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    BottomNavIcon(name: "home", image: "home.png"),
-                    BottomNavIcon(
-                        name: "Orders",
-                        image: "target.png",
-                        onClick: () async {
-                          await user.getOrders();
-                          changeScreen(context, OrderScreen());
-                        }),
-                    BottomNavIcon(
-                      name: "Cart",
-                      image: "shopping-bag.png",
-                      onClick: () {
-                        changeScreen(context, CartScreen());
-                      },
-                    ),
-                    BottomNavIcon(name: "Account", image: "avatar.png")
-                  ]),
-            ),
-          );
+      bottomNavigationBar: Container(
+        height: 60,
+        color: white,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              BottomNavIcon(name: "home", image: "home.png"),
+              BottomNavIcon(
+                  name: "Orders",
+                  image: "target.png",
+                  onClick: () async {
+                    await user.getOrders();
+                    changeScreen(context, OrderScreen());
+                  }),
+              BottomNavIcon(
+                name: "Cart",
+                image: "shopping-bag.png",
+                onClick: () {
+                  changeScreen(context, CartScreen());
+                },
+              ),
+              BottomNavIcon(name: "Account", image: "avatar.png")
+            ]),
+      ),
+    );
   }
 }

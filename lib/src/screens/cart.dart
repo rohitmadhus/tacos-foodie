@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/src/models/cartItem.dart';
 import 'package:foodie/src/providers/app.dart';
 import 'package:foodie/src/providers/userAuth.dart';
 import 'package:foodie/src/style.dart';
@@ -68,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                               bottomLeft: Radius.circular(20),
                               topLeft: Radius.circular(20)),
                           child: Image.network(
-                            ShoppingCart[index]["image"],
+                            ShoppingCart[index].image,
                             height: 120,
                             width: 140,
                             fit: BoxFit.cover,
@@ -84,15 +85,14 @@ class _CartScreenState extends State<CartScreen> {
                               RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                      text: ShoppingCart[index]["name"] + "\n",
+                                      text: ShoppingCart[index].name + "\n",
                                       style: TextStyle(
                                           color: black,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w300)),
                                   TextSpan(
                                       text: "₹ " +
-                                          ShoppingCart[index]["price"]
-                                              .toString() +
+                                          ShoppingCart[index].price.toString() +
                                           "\n",
                                       style: TextStyle(
                                           color: black,
@@ -105,7 +105,8 @@ class _CartScreenState extends State<CartScreen> {
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400)),
                                   TextSpan(
-                                      text: ShoppingCart[index]["quantity"]
+                                      text: ShoppingCart[index]
+                                              .quantity
                                               .toString() +
                                           "\n",
                                       style: TextStyle(
@@ -262,7 +263,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 cart: user.userModel.cart,
                                                 totalPrice: user
                                                     .userModel.totalCartPrice);
-                                            for (Map cartItem
+                                            for (CartItemModel cartItem
                                                 in user.userModel.cart) {
                                               bool value =
                                                   await user.removeFromCart(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodie/src/models/cartItem.dart';
 import 'package:foodie/src/models/order.dart';
 
 class OrderServices {
@@ -12,10 +13,17 @@ class OrderServices {
       String status,
       List cart,
       int totalPrice}) {
+    List<Map> cartItems = [];
+    List<String> restaurantId = [];
+    for (CartItemModel item in cart) {
+      cartItems.add(item.toMap());
+      restaurantId.add(item.restaurantId);
+    }
     _firestore.collection(collection).document(id).setData({
       "userId": userId,
       "id": id,
-      "cart": cart,
+      "restaurantIds": restaurantId,
+      "cart": cartItems,
       "total": totalPrice,
       "createdAt": DateTime.now().millisecondsSinceEpoch,
       "description": description,

@@ -51,8 +51,8 @@ class ProductModel {
     _description = snapshot.data[DESCRIPTION];
     _id = snapshot.data[ID];
     _featured = snapshot.data[FEATURED];
-    _price = snapshot.data[PRICE];
-    // _price = snapshot.data[PRICE].floor();
+    //_price = snapshot.data[PRICE];
+    _price = snapshot.data[PRICE].floor();
     _category = snapshot.data[CATEGORY];
     _rating = snapshot.data[RATING];
     _rates = snapshot.data[RATES];

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodie/src/models/cartItem.dart';
 
 class UserModel {
   static const NAME = "name";
@@ -17,7 +18,7 @@ class UserModel {
   int _priceSum = 0;
 
   //public variable
-  List cart;
+  List<CartItemModel> cart;
   int totalCartPrice;
 
   //List _likedFood;
@@ -36,23 +37,27 @@ class UserModel {
     _email = snapshot.data[EMAIL];
     _id = snapshot.data[ID];
     _stripeId = snapshot.data[STRIPE_ID];
-    cart = snapshot.data[CART] ?? [];
+    cart = _convertCartItems(snapshot.data[CART]) ?? [];
     totalCartPrice = getTotalPrice(cart: snapshot.data[CART]);
     //_likedFood = snapshot.data[LIKED_FOOD] ?? [];
     //_likedRestaurants = snapshot.data[LIKED_RESTAURANTS] ?? [];
   }
   int getTotalPrice({List cart}) {
-    for (Map cartItem in cart) {
-      _priceSum += cartItem["price"] * cartItem["quantity"];
+    if (cart != null) {
+      for (Map cartItem in cart) {
+        _priceSum += cartItem["price"] * cartItem["quantity"];
+      }
     }
     return _priceSum;
   }
 
-  // _convertCartItems(List<Map> cart) {
-  //   List<CartItemModel> convertedCart = [];
-  //   for (Map cartItem in cart) {
-  //     convertedCart.add(CartItemModel.fromMap(cartItem));
-  //   }
-  //   return convertedCart;
-  // }
+  _convertCartItems(List cart) {
+    List<CartItemModel> convertedCart = [];
+    if (cart != null) {
+      for (Map cartItem in cart) {
+        convertedCart.add(CartItemModel.fromMap(cartItem));
+      }
+      return convertedCart;
+    }
+  }
 }

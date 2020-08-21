@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/user.dart';
 import 'package:foodie/src/helpers/order.dart';
+import 'package:foodie/src/models/cartItem.dart';
 import 'package:foodie/src/models/order.dart';
 import 'package:foodie/src/models/products.dart';
 import 'package:foodie/src/models/user.dart';
@@ -107,39 +108,43 @@ class UserProvider with ChangeNotifier {
       String cartItemId = uuid.v1();
       //List cart = _userModel.cart;
       // bool itemExist = false;
-      // bool diffRestaurant = false;
+      bool diffRestaurant = false;
+      for (CartItemModel itemToAdd in _userModel.cart) {
+        if (product.id == itemToAdd.productId) {
+          _userServices.removeFromCart(cartItem: itemToAdd, uId: _userModel.id);
+          _userModel.cart.remove(itemToAdd);
+          quantity = itemToAdd.quantity + quantity;
+          break;
+        }
+      }
+      for (CartItemModel itemToAdd in _userModel.cart) {
+        if (product.restaurantId == itemToAdd.restaurantId) {
+          diffRestaurant = true;
+          break;
+        }
+      }
       Map cartItem = {
         "id": cartItemId,
         "name": product.name,
         "image": product.image,
+        "totalRestaurantSale": product.price * quantity,
         "productId": product.id,
         "price": product.price,
         "quantity": quantity,
         "restaurantId": product.restaurantId
       };
-      // for (Map item in cart) {
-      //   if (item["restaurantId"] != cartItem["restaurantId"]) {
-      //     diffRestaurant = true;
-      //   }
-      // }
-      //   if (item["productId"] == cartItem["productId"]) {
-      //     item["quantity"] = item["quantity"] + quantity;
-      //     itemExist = true;
-      //     break;
-      //   }
-      // }
-      // if (!itemExist) {
-      //   _userModel.cart.add(cartItem);
-      // }
-      _userModel.cart.add(cartItem);
-      _userServices.addToCart(cartItem: cartItem, uId: _userModel.id);
+
+      CartItemModel item = CartItemModel.fromMap(cartItem);
+
+      _userModel.cart.add(item);
+      _userServices.addToCart(cartItem: item, uId: _userModel.id);
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  Future<bool> removeFromCart({Map cartItem}) async {
+  Future<bool> removeFromCart({CartItemModel cartItem}) async {
     try {
       _userServices.removeFromCart(cartItem: cartItem, uId: _userModel.id);
       return true;

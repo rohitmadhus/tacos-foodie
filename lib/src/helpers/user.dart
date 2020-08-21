@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodie/src/models/cartItem.dart';
 import 'package:foodie/src/models/user.dart';
 
 class UserServices {
@@ -23,15 +24,15 @@ class UserServices {
         return UserModel.fromSnapShot(doc);
       });
 
-  void addToCart({String uId, Map cartItem}) {
+  void addToCart({String uId, CartItemModel cartItem}) {
     _firestore.collection(userCollection).document(uId).updateData({
-      "cart": FieldValue.arrayUnion([cartItem])
+      "cart": FieldValue.arrayUnion([cartItem.toMap()])
     });
   }
 
-  void removeFromCart({String uId, Map cartItem}) {
+  void removeFromCart({String uId, CartItemModel cartItem}) {
     _firestore.collection(userCollection).document(uId).updateData({
-      "cart": FieldValue.arrayRemove([cartItem])
+      "cart": FieldValue.arrayRemove([cartItem.toMap()])
     });
   }
 }

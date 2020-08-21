@@ -18,105 +18,106 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<UserProvider>(context);
-    return authProvider.status == Status.Authenticating
-        ? Loading()
-        : Scaffold(
-            key: _key,
-            backgroundColor: white,
-            body: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset("assets/Images/steak.png",
-                            width: 200, height: 200),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: grey),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          controller: authProvider.email,
-                          decoration: InputDecoration(
-                              hintText: "Email",
-                              border: InputBorder.none,
-                              icon: Icon(Icons.phone_android)),
-                        ),
-                      ),
+    return Scaffold(
+        key: _key,
+        backgroundColor: white,
+        body: authProvider.status == Status.Authenticating
+            ? Loading()
+            : SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: grey),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          controller: authProvider.password,
-                          decoration: InputDecoration(
-                              hintText: "password",
-                              border: InputBorder.none,
-                              icon: Icon(Icons.lock)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset("assets/Images/steak.png",
+                              width: 200, height: 200),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: GestureDetector(
-                      onTap: () async {
-                        if (!await authProvider.signIn()) {
-                          _key.currentState.showSnackBar(
-                              SnackBar(content: Text("Login failed")));
-                          return;
-                        }
-                        authProvider.cleanContainer();
-                        changeScreenReplacement(context, Home());
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(15),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: red,
                             border: Border.all(color: grey),
                             borderRadius: BorderRadius.circular(15)),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              CustomText(text: "Login", colors: white, size: 22)
-                            ],
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            controller: authProvider.email,
+                            decoration: InputDecoration(
+                                hintText: "Email",
+                                border: InputBorder.none,
+                                icon: Icon(Icons.phone_android)),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      changeScreen(context, RegitrationScreen());
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CustomText(text: "Register here"),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: grey),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            controller: authProvider.password,
+                            decoration: InputDecoration(
+                                hintText: "password",
+                                border: InputBorder.none,
+                                icon: Icon(Icons.lock)),
+                          ),
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              ),
-            ));
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: GestureDetector(
+                        onTap: () async {
+                          if (!await authProvider.signIn()) {
+                            _key.currentState.showSnackBar(
+                                SnackBar(content: Text("Login failed")));
+                            return;
+                          }
+                          authProvider.cleanContainer();
+                          changeScreenReplacement(context, Home());
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: red,
+                              border: Border.all(color: grey),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                CustomText(
+                                    text: "Login", colors: white, size: 22)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        changeScreen(context, RegitrationScreen());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CustomText(text: "Register here"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ));
   }
 }

@@ -8,9 +8,11 @@ class OrderModel {
   static const TOTAL = "total";
   static const STATUS = "status";
   static const CREATED_AT = "createdAt";
+  static const RESTAURANT_ID = "restautantId";
 
 //private inside the class
   String _id;
+  String _restautantId;
   String _description;
   String _userId;
   int _total;
@@ -25,6 +27,7 @@ class OrderModel {
   String get status => _status;
   int get total => _total;
   int get createdAt => _createdAt;
+  String get restaurantId => _restautantId;
 
   //public variable
   List cart;
@@ -36,6 +39,7 @@ class OrderModel {
     _status = snapshot.data[STATUS];
     _total = snapshot.data[TOTAL];
     _createdAt = snapshot.data[CREATED_AT];
+    // _restautantId = snapshot.data[RESTAURANT_ID];
     cart = snapshot.data[CART];
   }
 }

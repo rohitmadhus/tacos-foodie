@@ -19,7 +19,8 @@ class Details extends StatefulWidget {
   _DetailsState createState() => _DetailsState();
 }
 
-class _DetailsState extends State<Details> {
+class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
+  TabController _tabController;
   final _key = GlobalKey<ScaffoldState>();
   int quantity = 1;
   @override
@@ -47,6 +48,22 @@ class _DetailsState extends State<Details> {
                   onPressed: () {
                     Navigator.pop(context);
                   }),
+              // bottom: TabBar(
+              //   unselectedLabelColor: Colors.white,
+              //   labelColor: Colors.amber,
+              //   tabs: [
+              //     new Tab(icon: new Icon(Icons.fastfood)),
+              //     new Tab(
+              //       icon: new Icon(Icons.shopping_cart),
+              //     ),
+              //     new Tab(
+              //       icon: new Icon(Icons.notifications),
+              //     )
+              //   ],
+              //   controller: _tabController,
+              //   indicatorColor: Colors.white,
+              //   indicatorSize: TabBarIndicatorSize.tab,
+              // ),
             ),
             backgroundColor: white,
             body: SafeArea(
