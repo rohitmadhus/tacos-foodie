@@ -40,6 +40,19 @@ class ProductServices {
         return productsInCategory;
       });
 
+  Future<List<ProductModel>> getProductsFromFoodType({String foodType}) async =>
+      _firestore
+          .collection(collection)
+          .where("foodType", isEqualTo: foodType)
+          .getDocuments()
+          .then((result) {
+        List<ProductModel> productsInFoodType = [];
+        for (DocumentSnapshot product in result.documents) {
+          //converting to type object so that that we can retrive field easily
+          productsInFoodType.add(ProductModel.fromSnapshot(product));
+        }
+        return productsInFoodType;
+      });
   Future<List<ProductModel>> getProductsFromRestaurant({String id}) async =>
       _firestore
           .collection(collection)

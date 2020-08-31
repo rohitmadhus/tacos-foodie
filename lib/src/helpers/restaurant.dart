@@ -5,15 +5,15 @@ class RestaurantServices {
   String collection = "restaurants";
   Firestore _firestore = Firestore.instance;
 
-  // Future<List<RestaurantModel>> getRestaurants() async =>
-  //     _firestore.collection(collection).getDocuments().then((result) {
-  //       List<RestaurantModel> restaurants = [];
-  //       for (DocumentSnapshot restaurant in result.documents) {
-  //         //converting to type object so that that we can retrive field easyly
-  //         restaurants.add(RestaurantModel.fromSnapshot(restaurant));
-  //       }
-  //       return restaurants;
-  //     });
+  Future<List<RestaurantModel>> getRestaurants() async =>
+      _firestore.collection(collection).getDocuments().then((result) {
+        List<RestaurantModel> restaurants = [];
+        for (DocumentSnapshot restaurant in result.documents) {
+          //converting to type object so that that we can retrive field easyly
+          restaurants.add(RestaurantModel.fromSnapshot(restaurant));
+        }
+        return restaurants;
+      });
   Future<List<RestaurantModel>> getPopularRestaurants() async => _firestore
           .collection(collection)
           .where("popular", isEqualTo: true)

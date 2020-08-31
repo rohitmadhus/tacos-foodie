@@ -34,6 +34,7 @@ class OrderServices {
   Future<List<OrderModel>> getUserOrders({String userId}) async => _firestore
           .collection(collection)
           .where("userId", isEqualTo: userId)
+          .orderBy("createdAt", descending: true)
           .getDocuments()
           .then((result) {
         List<OrderModel> orders = [];

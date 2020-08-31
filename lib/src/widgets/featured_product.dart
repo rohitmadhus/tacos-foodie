@@ -17,13 +17,13 @@ class Featured extends StatelessWidget {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      height: 220,
+      height: 175,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: productProvider.products.length,
           itemBuilder: (_, index) {
             return Padding(
-                padding: EdgeInsets.fromLTRB(12, 14, 16, 12),
+                padding: EdgeInsets.fromLTRB(6, 6, 6, 6),
                 child: GestureDetector(
                   onTap: () {
                     changeScreen(
@@ -33,10 +33,10 @@ class Featured extends StatelessWidget {
                         ));
                   },
                   child: Container(
-                    height: 220,
-                    width: 200,
+                    height: 175,
+                    width: 170,
                     decoration: BoxDecoration(
-                        color: white,
+                        color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
@@ -61,26 +61,28 @@ class Featured extends StatelessWidget {
                                 child: FadeInImage.memoryNetwork(
                                   placeholder: kTransparentImage,
                                   image: productProvider.products[index].image,
-                                  height: 130,
-                                  width: 200,
+                                  height: 90,
+                                  width: 170,
                                   fit: BoxFit.cover,
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomText(
-                                text: productProvider.products[index].name ??
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                productProvider.products[index].name ??
                                     "id null",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 15),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8),
+                              padding: EdgeInsets.all(3),
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
@@ -92,64 +94,20 @@ class Featured extends StatelessWidget {
                                           blurRadius: 4),
                                     ]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Icon(
-                                    Icons.favorite_border,
-                                    color: red,
-                                    size: 18,
-                                  ),
-                                ),
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: CustomText(
+                                        text:
+                                            "₹ ${productProvider.products[index].price}",
+                                        weight: FontWeight.w400,
+                                        size: 15,
+                                        colors: red,
+                                      ),
+                                    )),
                               ),
                             )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: CustomText(
-                                    text: productProvider.products[index].rating
-                                        .toString(),
-                                    colors: grey,
-                                    size: 14.0,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: red,
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: red,
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: red,
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: grey,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: CustomText(
-                                text:
-                                    "₹ ${productProvider.products[index].price}",
-                                weight: FontWeight.bold,
-                              ),
-                            ),
                           ],
                         ),
                       ],

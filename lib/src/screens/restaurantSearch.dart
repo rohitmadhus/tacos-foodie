@@ -58,27 +58,37 @@ class RestaurantSearchScreen extends StatelessWidget {
                       ),
                     ),
                   )
-                : ListView.builder(
-                    itemCount: restaurantProvider.restaurantsSearched.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          //  app.changeLoading();
-                          await productProvider.loadProductsByRestaurant(
-                              id: restaurantProvider
-                                  .restaurantsSearched[index].id);
-                          changeScreen(
-                              context,
-                              RestaurantScreen(
-                                  restaurantModel: restaurantProvider
-                                      .restaurantsSearched[index]));
-                          //  app.changeLoading();
-                        },
-                        child: RestaurantWidget(
-                            restaurant:
-                                restaurantProvider.restaurantsSearched[index]),
-                      );
-                    }),
+                : SafeArea(
+                    child: ListView(
+                    key: PageStorageKey<String>(
+                        'seeAllRestaurantPageController'),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
+                        child: Column(
+                          children: restaurantProvider.restaurantsSearched
+                              .map((item) => GestureDetector(
+                                    onTap: () async {
+                                      app.changeLoading();
+                                      changeScreen(
+                                          context,
+                                          RestaurantScreen(
+                                              restaurantModel: item));
+
+                                      await productProvider
+                                          .loadProductsByRestaurant(
+                                              id: item.id);
+                                      app.changeLoading();
+                                    },
+                                    child: RestaurantWidget(
+                                      restaurant: item,
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      )
+                    ],
+                  )),
           );
   }
 }

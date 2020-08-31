@@ -12,27 +12,30 @@ class RestaurantWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 2.0, left: 9, right: 9, bottom: 4),
+      padding: const EdgeInsets.only(top: 2, left: 9, right: 9, bottom: 4),
       child: Stack(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                        child: Align(
-                      alignment: Alignment.center,
-                      child: Loading(),
-                    )),
-                    Center(
-                        child: FadeInImage.memoryNetwork(
-                            placeholder: kTransparentImage,
-                            image: restaurant.image,
-                            fit: BoxFit.cover))
-                  ],
-                )),
+            child: Container(
+              height: 214,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.0),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                          child: Align(
+                        alignment: Alignment.center,
+                        child: Loading(),
+                      )),
+                      Center(
+                          child: FadeInImage.memoryNetwork(
+                              placeholder: kTransparentImage,
+                              image: restaurant.image,
+                              fit: BoxFit.cover))
+                    ],
+                  )),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -73,8 +76,8 @@ class RestaurantWidget extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
                   ),
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,

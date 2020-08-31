@@ -6,6 +6,7 @@ class ProductProvider with ChangeNotifier {
   ProductServices _productServices = ProductServices();
   List<ProductModel> products = [];
   List<ProductModel> productsByCategory = [];
+  List<ProductModel> productsByFoodType = [];
   List<ProductModel> productsByRestaurant = [];
   List<ProductModel> productsSearched = [];
   ProductProvider.initialize() {
@@ -26,6 +27,12 @@ class ProductProvider with ChangeNotifier {
   Future loadProductsByCategory({String categoryName}) async {
     productsByCategory =
         await _productServices.getProductsFromCategory(category: categoryName);
+    notifyListeners();
+  }
+
+  Future loadProductsByFoodType({String foodType}) async {
+    productsByFoodType =
+        await _productServices.getProductsFromFoodType(foodType: foodType);
     notifyListeners();
   }
 

@@ -17,12 +17,12 @@ class ProductWidget extends StatelessWidget {
     final restaurantProvider = Provider.of<RestaurantProvider>(context);
     final productProvider = Provider.of<ProductProvider>(context);
     return Padding(
-      padding: const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 10),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 2, bottom: 2),
       child: Container(
-        height: 110,
+        height: 90,
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                   color: Colors.grey[300],
@@ -30,145 +30,95 @@ class ProductWidget extends StatelessWidget {
                   blurRadius: 5),
             ]),
 //            height: 160,
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 140,
-              height: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  topLeft: Radius.circular(20),
-                ),
-                child: Image.network(
-                  product.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomText(
-                          text: product.name,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[300],
-                                    offset: Offset(1, 1),
-                                    blurRadius: 4),
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.favorite_border,
-                              color: red,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: Row(
-                      children: <Widget>[
-                        CustomText(
-                          text: "from :",
-                          colors: grey,
-                          weight: FontWeight.w300,
-                          size: 14,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            await productProvider.loadProductsByRestaurant(
-                                id: product.restaurantId);
-                            await restaurantProvider.loadSingleRestaurant(
-                                restaurantId: product.restaurantId);
-                            changeScreen(
-                                context,
-                                RestaurantScreen(
-                                    restaurantModel:
-                                        restaurantProvider.restaurant));
-                          },
-                          child: CustomText(
-                              text: product.restaurant,
-                              colors: black,
-                              weight: FontWeight.w600,
-                              size: 14),
-                        ),
-                      ],
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 120,
+                  height: 90,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                    ),
+                    child: Image.network(
+                      product.image,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Row(
+                ),
+                Expanded(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: CustomText(
-                              text: product.rating.toString(),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                product.name,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 15),
+                              )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 3, 0, 3),
+                        child: Row(
+                          children: <Widget>[
+                            CustomText(
+                              text: "From :",
                               colors: grey,
-                              size: 14.0,
+                              weight: FontWeight.w300,
+                              size: 14,
                             ),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: red,
-                            size: 16,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: red,
-                            size: 16,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: red,
-                            size: 16,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: grey,
-                            size: 16,
+                            SizedBox(
+                              width: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                await productProvider.loadProductsByRestaurant(
+                                    id: product.restaurantId);
+                                await restaurantProvider.loadSingleRestaurant(
+                                    restaurantId: product.restaurantId);
+                                changeScreen(
+                                    context,
+                                    RestaurantScreen(
+                                        restaurantModel:
+                                            restaurantProvider.restaurant));
+                              },
+                              child: CustomText(
+                                  text: product.restaurant,
+                                  colors: red,
+                                  weight: FontWeight.w600,
+                                  size: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 3, 0, 8),
+                            child: CustomText(
+                              text: "₹" + product.price.toString(),
+                              weight: FontWeight.bold,
+                              size: 15,
+                            ),
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: CustomText(
-                          text: "₹" + product.price.toString(),
-                          weight: FontWeight.bold,
-                        ),
-                      ),
                     ],
                   ),
-                ],
-              ),
-            )
+                )
+              ],
+            ),
           ],
         ),
       ),

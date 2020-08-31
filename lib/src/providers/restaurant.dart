@@ -4,20 +4,22 @@ import 'package:foodie/src/models/restaurant.dart';
 
 class RestaurantProvider with ChangeNotifier {
   RestaurantServices restaurantServices = RestaurantServices();
+  List<RestaurantModel> popularRestaurants = [];
   List<RestaurantModel> restaurants = [];
   List<RestaurantModel> restaurantsSearched = [];
   RestaurantModel restaurant;
+  String restaurantName;
   RestaurantProvider.initialize() {
-    //_loadRestaurants();
     _loadPopularRestaurants();
   }
 
-  // _loadRestaurants() async {
-  //   restaurants = await restaurantServices.getRestaurants();
-  //   notifyListeners();
-  // }
+  loadRestaurants() async {
+    restaurants = await restaurantServices.getRestaurants();
+    notifyListeners();
+  }
+
   _loadPopularRestaurants() async {
-    restaurants = await restaurantServices.getPopularRestaurants();
+    popularRestaurants = await restaurantServices.getPopularRestaurants();
     notifyListeners();
   }
 
@@ -31,5 +33,11 @@ class RestaurantProvider with ChangeNotifier {
         restaurantName: restaurantName);
     print("Res no:" + restaurantsSearched.length.toString());
     notifyListeners();
+  }
+
+  Future getRestaurantName({String restaurantId}) async {
+    RestaurantModel _restautant =
+        await restaurantServices.getRestaurantById(id: restaurantId);
+    restaurantName = _restautant.name;
   }
 }

@@ -102,45 +102,46 @@ class UserProvider with ChangeNotifier {
     name.text = "";
   }
 
-  Future<bool> addToCart({ProductModel product, int quantity}) async {
+  Future<int> addToCart({ProductModel product, int quantity}) async {
     try {
-      var uuid = Uuid();
-      String cartItemId = uuid.v1();
-      //List cart = _userModel.cart;
-      // bool itemExist = false;
       bool diffRestaurant = false;
       for (CartItemModel itemToAdd in _userModel.cart) {
-        if (product.id == itemToAdd.productId) {
-          _userServices.removeFromCart(cartItem: itemToAdd, uId: _userModel.id);
-          _userModel.cart.remove(itemToAdd);
-          quantity = itemToAdd.quantity + quantity;
-          break;
-        }
-      }
-      for (CartItemModel itemToAdd in _userModel.cart) {
-        if (product.restaurantId == itemToAdd.restaurantId) {
+        if (product.restaurantId != itemToAdd.restaurantId) {
           diffRestaurant = true;
           break;
         }
       }
-      Map cartItem = {
-        "id": cartItemId,
-        "name": product.name,
-        "image": product.image,
-        "totalRestaurantSale": product.price * quantity,
-        "productId": product.id,
-        "price": product.price,
-        "quantity": quantity,
-        "restaurantId": product.restaurantId
-      };
-
-      CartItemModel item = CartItemModel.fromMap(cartItem);
-
-      _userModel.cart.add(item);
-      _userServices.addToCart(cartItem: item, uId: _userModel.id);
-      return true;
+      if (!diffRestaurant) {
+        var uuid = Uuid();
+        String cartItemId = uuid.v1();
+        for (CartItemModel itemToAdd in _userModel.cart) {
+          if (product.id == itemToAdd.productId) {
+            _userServices.removeFromCart(
+                cartItem: itemToAdd, uId: _userModel.id);
+            _userModel.cart.remove(itemToAdd);
+            quantity = itemToAdd.quantity + quantity;
+            break;
+          }
+        }
+        Map cartItem = {
+          "id": cartItemId,
+          "name": product.name,
+          "image": product.image,
+          "totalRestaurantSale": product.price * quantity,
+          "productId": product.id,
+          "price": product.price,
+          "quantity": quantity,
+          "restaurantId": product.restaurantId
+        };
+        CartItemModel item = CartItemModel.fromMap(cartItem);
+        _userModel.cart.add(item);
+        _userServices.addToCart(cartItem: item, uId: _userModel.id);
+        return 1;
+      } else {
+        return 2;
+      }
     } catch (e) {
-      return false;
+      return 3;
     }
   }
 

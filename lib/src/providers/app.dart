@@ -4,13 +4,20 @@ enum SearchBy { PRODUCTS, RESTAURANTS }
 
 class AppProvider with ChangeNotifier {
   bool isLoading = false;
-  SearchBy search = SearchBy.PRODUCTS;
-  String filterBy = "Products";
+  bool isWidgetLoading = false;
+  SearchBy search = SearchBy.RESTAURANTS;
+  String filterBy = "Restaurants";
   int totalPrice = 0;
   int priceSum = 0;
   int quantitySum = 0;
+
   void changeLoading() {
     isLoading = !isLoading;
+    notifyListeners();
+  }
+
+  void changeWidgetLoading() {
+    isWidgetLoading = !isWidgetLoading;
     notifyListeners();
   }
 
