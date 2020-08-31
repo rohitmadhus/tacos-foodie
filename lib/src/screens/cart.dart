@@ -25,6 +25,7 @@ class _CartScreenState extends State<CartScreen> {
   final _key = GlobalKey<ScaffoldState>();
   OrderServices _orderServices = OrderServices();
   var times;
+  final now = TimeOfDay.now();
 
   void initState() {
     super.initState();
@@ -201,7 +202,15 @@ class _CartScreenState extends State<CartScreen> {
                               fontWeight: FontWeight.bold))
                     ],
                   ),
-                  TimeSlotWidget()
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: now.hour >= 9 && now.hour <= 20
+                        ? TimeSlotWidget()
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 15, 8, 15),
+                            child: Text("No Slots available"),
+                          ),
+                  )
                 ],
               ),
             ),

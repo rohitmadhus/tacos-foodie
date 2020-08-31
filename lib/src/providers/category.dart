@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../helpers/category.dart';
-import '../models/category.dart';
+import 'package:foodie/src/helpers/category.dart';
+import 'package:foodie/src/models/category.dart';
 
 class CategoryProvider with ChangeNotifier {
   CategoryServices _categoryServices = CategoryServices();

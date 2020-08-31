@@ -17,8 +17,10 @@ class _TimeSlotWidgetState extends State<TimeSlotWidget> {
     // TODO: implement initState
     super.initState();
     times = getTimes().map((tod) => tod).toList();
-    _selection = List.generate(times.length, (_) => Colors.red[200]);
-    _selection[0] = Colors.red;
+    if (times.length > 0) {
+      _selection = List.generate(times.length, (_) => Colors.red[200]);
+      _selection[0] = Colors.red;
+    }
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:foodie/src/providers/app.dart';
 import 'package:foodie/src/providers/cart.dart';
 import 'package:foodie/src/providers/category.dart';
 import 'package:foodie/src/providers/foodType.dart';
+import 'package:foodie/src/providers/location.dart';
 import 'package:foodie/src/providers/product.dart';
 import 'package:foodie/src/providers/restaurant.dart';
 import 'package:foodie/src/providers/userAuth.dart';
@@ -29,6 +30,7 @@ void main() {
         ChangeNotifierProvider.value(value: RestaurantProvider.initialize()),
         ChangeNotifierProvider.value(value: ProductProvider.initialize()),
         ChangeNotifierProvider.value(value: CartProvider()),
+        ChangeNotifierProvider.value(value: LocationProvider.initialize()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

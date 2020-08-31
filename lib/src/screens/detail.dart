@@ -76,7 +76,7 @@ class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
                     child: Column(
                       children: <Widget>[
                         Icon(Icons.rate_review, size: 18),
-                        Text("Reviews")
+                        Text("Reviews"),
                       ],
                     ),
                   ),

@@ -49,7 +49,7 @@ class RestaurantScreen extends StatelessWidget {
                           placeholder: kTransparentImage,
                           image: restaurantModel.image,
                           height: 160,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           width: double.infinity,
                         ),
                       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodie/src/datatype/listItem.dart';
 
 Iterable<TimeOfDay> getTimes() sync* {
   TimeOfDay startTime;
@@ -13,14 +12,13 @@ Iterable<TimeOfDay> getTimes() sync* {
       startTime = TimeOfDay(hour: now.hour + 1, minute: 0);
     }
   } else {
-    startTime = TimeOfDay(hour: 23, minute: 0);
+    startTime = TimeOfDay(hour: 20, minute: 0);
   }
   final endTime = TimeOfDay(hour: 20, minute: 0);
   final step = Duration(minutes: 30);
 
   var hour = startTime.hour;
   var minute = startTime.minute;
-
   do {
     yield TimeOfDay(hour: hour, minute: minute);
     minute += step.inMinutes;

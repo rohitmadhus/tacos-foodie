@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodie/src/helpers/screen_navigation.dart';
 import 'package:foodie/src/providers/app.dart';
 import 'package:foodie/src/providers/foodType.dart';
+import 'package:foodie/src/providers/location.dart';
 import 'package:foodie/src/providers/product.dart';
 import 'package:foodie/src/providers/restaurant.dart';
 import 'package:foodie/src/providers/userAuth.dart';
@@ -9,6 +10,7 @@ import 'package:foodie/src/providers/category.dart';
 import 'package:foodie/src/screens/cart.dart';
 import 'package:foodie/src/screens/category.dart';
 import 'package:foodie/src/screens/foodType.dart';
+import 'package:foodie/src/screens/locationSearch.dart';
 import 'package:foodie/src/screens/order.dart';
 import 'package:foodie/src/screens/productSearch.dart';
 import 'package:foodie/src/screens/restaurant.dart';
@@ -43,6 +45,7 @@ class _HomeState extends State<Home> {
     final foodTypeProvider = Provider.of<FoodTypeProvider>(context);
     final restaurantProvider = Provider.of<RestaurantProvider>(context);
     final productProvider = Provider.of<ProductProvider>(context);
+    final locationProvider = Provider.of<LocationProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,6 +55,41 @@ class _HomeState extends State<Home> {
         toolbarHeight: 45,
         title: CustomText(text: "TACOS"),
         actions: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.location_on, size: 15),
+                  Container(
+                    width: 100,
+                    height: 40,
+                    color: white,
+                    child: Row(
+                      children: [
+                        RawMaterialButton(
+                          onPressed: () {
+                            changeScreen(context, LocationSearchScreen());
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                locationProvider.userLocation.name,
+                                style: TextStyle(fontSize: 12, color: black),
+                                textAlign: TextAlign.left,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
             child: Stack(
@@ -140,49 +178,52 @@ class _HomeState extends State<Home> {
               child: ListView(
               //key: PageStorageKey<String>('homePageController'),
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: white,
-                    // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(30))
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 5, 15, 2),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(5),
-                          boxShadow: [
-                            BoxShadow(
-                                color: grey,
-                                offset: Offset(1, 1),
-                                blurRadius: 2)
-                          ]),
-                      child: ListTile(
-                        leading: Icon(Icons.search, color: red),
-                        title: TextField(
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (pattern) async {
-                            app.changeLoading();
-                            if (app.search == SearchBy.PRODUCTS) {
-                              changeScreen(context, ProductSearchScreen());
-                              await productProvider.searchedProducts(
-                                  productName: pattern);
-                            }
-                            if (app.search == SearchBy.RESTAURANTS) {
-                              changeScreen(context, RestaurantSearchScreen());
-                              await restaurantProvider.searchedRestaurants(
-                                  restaurantName: pattern);
-                            }
-                            app.changeLoading();
-                          },
-                          decoration: InputDecoration(
-                              hintText: "Find your foods and Restaurants",
-                              border: InputBorder.none),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grey,
+                                  offset: Offset(1, 1),
+                                  blurRadius: 2)
+                            ]),
+                        child: ListTile(
+                          leading: Icon(Icons.search, color: red, size: 20),
+                          focusColor: Colors.red[50],
+                          title: TextField(
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 15),
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (pattern) async {
+                              app.changeLoading();
+                              if (app.search == SearchBy.PRODUCTS) {
+                                changeScreen(context, ProductSearchScreen());
+                                await productProvider.searchedProducts(
+                                    productName: pattern);
+                              }
+                              if (app.search == SearchBy.RESTAURANTS) {
+                                changeScreen(context, RestaurantSearchScreen());
+                                await restaurantProvider.searchedRestaurants(
+                                    restaurantName: pattern);
+                              }
+                              app.changeLoading();
+                            },
+                            decoration: InputDecoration(
+                                hintText: "Find your foods and Restaurants",
+                                border: InputBorder.none),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -218,6 +259,7 @@ class _HomeState extends State<Home> {
                   ],
                 ),
                 // Divider(),
+
                 SizedBox(
                   height: 3,
                 ),
